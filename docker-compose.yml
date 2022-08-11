@@ -1,0 +1,58 @@
+version: '3.6'
+services:
+  nginx:
+    container_name: nginx-all
+    image: 'nginx:alpine'
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./nginx/configs:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/ssl
+    networks:
+      - backbone
+    ports:
+      - 80:80
+      - 443:443
+  gitlab:
+    depends_on:
+      - nginx
+    container_name: gitlab-all
+    # image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
+    image: 'gitlab/gitlab-ce'
+    privileged: true
+    restart: always
+    hostname: 'gitlab.onlylike.work'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.onlylike.work'
+        gitlab_rails['gitlab_ssh_host'] = 'gitlab.onlylike.work'
+        gitlab_rails['gitlab_shell_ssh_port'] = 222
+        gitlab_rails['time_zone'] = 'Asia/Shanghai'
+        nginx['redirect_http_to_https'] = false
+        letsencrypt['enabled'] = false
+        # nginx['enable'] = true
+    networks:
+      - backbone
+    ports:
+      - '8881:80'
+      - '4433:443'
+      - '222:22'
+    volumes:
+      - './gitlab/config:/etc/gitlab'
+      - './gitlab/logs:/var/log/gitlab'
+      - './gitlab/data:/var/opt/gitlab'
+  jenkins:
+    image: 'jenkins/jenkins:2.363'
+    container_name: jenkins-all
+    networks:
+      - backbone
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - './jenkins:/var/jenkins_home'
+    ports:
+      - 8882:8080
+      - 50001:50000
+networks:
+  backbone:
+    driver: bridge
