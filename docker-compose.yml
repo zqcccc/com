@@ -2,7 +2,7 @@ version: '3.6'
 services:
   nginx:
     container_name: nginx-all
-    image: 'nginx:alpine'
+    image: 'nginx:stable-alpine@sha256:3a981e79719c7b2521dfafac7431184e1d36409b4081fb0a1d8a31505c9e26c7'
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -17,8 +17,8 @@ services:
     depends_on:
       - nginx
     container_name: gitlab-all
-    # image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
-    image: 'gitlab/gitlab-ce'
+    image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
+    # image: 'gitlab/gitlab-ce'
     privileged: true
     restart: always
     hostname: 'gitlab.onlylike.work'
@@ -42,7 +42,7 @@ services:
       - './gitlab/logs:/var/log/gitlab'
       - './gitlab/data:/var/opt/gitlab'
   jenkins:
-    image: 'jenkins/jenkins:2.363'
+    image: 'jenkins/jenkins:2.346.3-lts-jdk11@sha256:6d0ad4fe281888a73f01fb903ccf3216db0f5fd7aa39a2f7bb91f74d6f534420'
     container_name: jenkins-all
     networks:
       - backbone
