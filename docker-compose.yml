@@ -1,6 +1,9 @@
 version: '3.6'
 services:
   nginx:
+    depends_on:
+      - gitlab
+      - jenkins
     container_name: nginx-all
     image: 'nginx:stable-alpine@sha256:3a981e79719c7b2521dfafac7431184e1d36409b4081fb0a1d8a31505c9e26c7'
     environment:
@@ -14,8 +17,6 @@ services:
       - 80:80
       - 443:443
   gitlab:
-    depends_on:
-      - nginx
     container_name: gitlab-all
     image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
     # image: 'gitlab/gitlab-ce'
