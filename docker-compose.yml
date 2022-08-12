@@ -26,7 +26,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.onlylike.work'
-        gitlab_rails['gitlab_ssh_host'] = 'gitlab.onlylike.work'
+        gitlab_rails['gitlab_ssh_host'] = 'gitlab-ssh.onlylike.work'
         gitlab_rails['gitlab_shell_ssh_port'] = 222
         gitlab_rails['time_zone'] = 'Asia/Shanghai'
         nginx['redirect_http_to_https'] = false
@@ -37,7 +37,7 @@ services:
     ports:
       - '8881:80'
       - '4433:443'
-      - '222:22'
+      - '222:222'
     volumes:
       - './gitlab/config:/etc/gitlab'
       - './gitlab/logs:/var/log/gitlab'
