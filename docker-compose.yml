@@ -4,6 +4,7 @@ services:
     depends_on:
       - gitlab
       - jenkins
+    restart: always
     container_name: nginx-all
     image: 'nginx:stable-alpine'
     environment:
@@ -46,6 +47,7 @@ services:
   jenkins:
     image: 'jenkins/jenkins:2.346.3-lts-jdk11'
     container_name: jenkins-all
+    restart: always
     privileged: true
     networks:
       - backbone
