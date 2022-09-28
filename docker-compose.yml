@@ -18,6 +18,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   gitlab:
     container_name: gitlab-all
     image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
