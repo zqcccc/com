@@ -1,7 +1,7 @@
 version: '3.6'
-networks:
-  backbone:
-    driver: bridge
+# networks:
+#   backbone:
+#     driver: bridge
 services:
   nginx:
     # depends_on:
@@ -16,13 +16,13 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/configs:/etc/nginx/conf.d
       - ./nginx/ssl:/etc/ssl
-    networks:
-      - backbone
     ports:
-      - 80:80
+      - 8111:80
       - 443:443
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # networks:
+    #   - backbone
   # gitlab:
   #   container_name: gitlab-all
   #   image: 'yrzr/gitlab-ce-arm64v8' # for arm64 server
